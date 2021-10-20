@@ -3,24 +3,34 @@ package udp
 import "fmt"
 
 func Broadcaster() {
-	//	listeners := make(map[QsoInfoChan]bool)
+	fmt.Println("Broadcaster started")
+	lookupInfoListeners := make(map[chan QsoInfo]bool)
 	for {
 		select {
-		case QsoInfo := <-LookupInfoChan:
+		case info := <-LookupInfoChan:
 			{
-				fmt.Println("LookupInfoChan", QsoInfo.String())
+				for k, v := range lookupInfoListeners {
+					if v {
+						k <- info
+					}
+				}
 			}
-		case QsoInfo := <-ContactInfoChan:
+		case info := <-ContactInfoChan:
 			{
-				fmt.Println("ContactInfoChan", QsoInfo.String())
+				fmt.Println("ContactInfoChan", info.String())
 			}
-		case QsoInfo := <-ContactReplaceChan:
+		case info := <-ContactReplaceChan:
 			{
-				fmt.Println("ContactReplaceChan", QsoInfo.String())
+				fmt.Println("ContactReplaceChan", info.String())
 			}
-		case QsoInfo := <-ContactDeleteChan:
+		case info := <-ContactDeleteChan:
 			{
-				fmt.Println("ContactDeleteChan", QsoInfo.String())
+				fmt.Println("ContactDeleteChan", info.String())
+			}
+		case lookupListener := <-LookupinfoListener:
+			{
+				lookupInfoListeners[lookupListener] = true
+				fmt.Println("LookupinfoListener registered, num of listener:", len(lookupInfoListeners))
 			}
 		}
 	}
