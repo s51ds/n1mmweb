@@ -15,14 +15,6 @@ const (
 
 type QsoInfoType int
 
-const (
-	unknown = iota
-	lookupinfo
-	contactinfo
-	contactreplace
-	contactdelete
-)
-
 var qsoInfoTypeNames = [...]string{"unknown", "lookupinfo", "contactinfo", "contactreplace", "contactdelete"}
 
 func tokenNameToQsoInfoType(tokenName string) QsoInfoType {
@@ -33,6 +25,12 @@ func tokenNameToQsoInfoType(tokenName string) QsoInfoType {
 	}
 	log.Printf("Unexpected token: %s\n", tokenName)
 	return QsoInfoType(0)
+}
+
+func makeQsoInfo(c []byte, tokenName string) (qsoInfo QsoInfo, err error) {
+	qsoInfo.Type = tokenNameToQsoInfoType(tokenName)
+	err = xml.Unmarshal(c, &qsoInfo)
+	return
 }
 
 type QsoInfo struct {

@@ -77,7 +77,6 @@ func processPacket(c []byte) {
 	decoder := xml.NewDecoder(bytes.NewReader(c))
 	for {
 		tok, err := decoder.Token()
-
 		if err == io.EOF {
 			break
 		} else if err != nil {
@@ -87,16 +86,41 @@ func processPacket(c []byte) {
 
 		switch tok := tok.(type) {
 		case xml.StartElement:
-			switch tok.Name.Local {
-			case lookupInfo, contactInfo, contactReplace, contactDelete:
+			tokenName := tok.Name.Local
+			switch tokenName {
+			case lookupInfo:
 				{
-					v := &QsoInfo{}
-					v.Type = tokenNameToQsoInfoType(tok.Name.Local)
-					xml.Unmarshal(c, v)
-					fmt.Println(v.String())
-					return
+					if qsoInfo, err := makeQsoInfo(c, tokenName); err != nil {
+						fmt.Println(err.Error(), tokenName, string(c))
+					} else {
+						LookupInfoChan <- qsoInfo
+					}
 				}
-			}
-		}
-	}
+			case contactInfo:
+				{
+					if qsoInfo, err := makeQsoInfo(c, tokenName); err != nil {
+						fmt.Println(err.Error(), tokenName, string(c))
+					} else {
+						ContactInfoChan <- qsoInfo
+					}
+				}
+			case contactReplace:
+				{
+					if qsoInfo, err := makeQsoInfo(c, tokenName); err != nil {
+						fmt.Println(err.Error(), tokenName, string(c))
+					} else {
+						ContactReplaceChan <- qsoInfo
+					}
+				}
+			case contactDelete:
+				{
+					if qsoInfo, err := makeQsoInfo(c, tokenName); err != nil {
+						fmt.Println(err.Error(), tokenName, string(c))
+					} else {
+						ContactDeleteChan <- qsoInfo
+					}
+				}
+			} // switch tokenName
+		} // switch tok := tok.(type)
+	} // for
 }

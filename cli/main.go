@@ -10,6 +10,7 @@ import (
 func main() {
 
 	fmt.Println("N1MM WEB started")
+	go udp.Broadcaster()
 	if err := udp.StartServer(context.Background(), "localhost:12060"); err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
