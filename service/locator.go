@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/s51ds/n1mmweb/udp"
 	"github.com/s51ds/qthdb/locators"
-	"github.com/s51ds/qthdist/distance"
+	"github.com/s51ds/qthgeo/distance"
 	"strings"
 )
 

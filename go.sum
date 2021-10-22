@@ -6,8 +6,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/russross/blackfriday/v2 v2.0.1/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/s51ds/qthdb v0.0.0-20211022151320-3e0f3f64ad53 h1:D8hKqicVddMn9EBio5w3x3h3PFbfFEsJNWNem+s5zWE=
 github.com/s51ds/qthdb v0.0.0-20211022151320-3e0f3f64ad53/go.mod h1:lgIMjTai4Pq5q57agyLjQuTnsbCOXP0Ghz+x0RmvnsY=
-github.com/s51ds/qthdist v0.0.0-20211022150301-90bc49e4b450 h1:iTuv4Ct12Klgv8x8jYMPiatHBUhLuDHPbntc4X2XoF4=
-github.com/s51ds/qthdist v0.0.0-20211022150301-90bc49e4b450/go.mod h1:bbToFgVzEeS57cSs/RW9hHkT4mNxyVhfb6dOAXOGknU=
+github.com/s51ds/qthgeo v0.0.0-20211022153818-99c9b17a2810 h1:gSIqFeWy0eviV19Uk/zaWNkHkIW/Cu1fPiCLYiS5Tdg=
+github.com/s51ds/qthgeo v0.0.0-20211022153818-99c9b17a2810/go.mod h1:oYKT2aZjcL16aKXj5ph0VkyhFgOPeqL3G7EiqKC6t7E=
 github.com/s51ds/validators v0.0.0-20210426164757-146110d9e22d h1:XUN7plRjg9VMfGMCrl1q2tnbKI00ENVGNCW1RHctC4g=
 github.com/s51ds/validators v0.0.0-20210426164757-146110d9e22d/go.mod h1:Eh8IjGkGxBZZJide8QEfIP2XLVWMQA+191PgNB5/MrU=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
