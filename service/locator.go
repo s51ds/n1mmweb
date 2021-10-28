@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"github.com/s51ds/n1mmweb/udp"
+	"github.com/s51ds/n1mmweb/web"
 	"github.com/s51ds/qthdb/locators"
 	"github.com/s51ds/qthgeo/distance"
 	"strings"
@@ -21,13 +22,13 @@ func Locators(myLocator string) {
 			{
 				resp := locators.Get(info.Call)
 				sb := strings.Builder{}
-				sb.WriteString(fmt.Sprintln(info.Call))
+				sb.WriteString(fmt.Sprintln(info.Call) + "<br>")
 				if len(resp) > 0 {
 					for _, v := range resp {
 						if dist, azim, err := distance.Get(myLocator, v.Locator); err != nil {
 							fmt.Println(err)
 						} else {
-							sb.WriteString(fmt.Sprintf("%s %3dkm %3d° %s\n", v.Locator, int(dist), int(azim), v.LogTime.Sprint(false)))
+							sb.WriteString(fmt.Sprintf("%s %3dkm %3d° %s\n<br>", v.Locator, int(dist), int(azim), v.LogTime.Sprint(false)))
 						}
 					}
 				} else {
@@ -35,6 +36,7 @@ func Locators(myLocator string) {
 				}
 
 				fmt.Println(sb.String())
+				web.LocatorChan <- sb.String()
 
 				//				qthdb.api.Locators(myLocator, info.Call)
 			}

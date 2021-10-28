@@ -3,7 +3,7 @@ package udp
 import "fmt"
 
 func Broadcaster() {
-	fmt.Println("Broadcaster started")
+	fmt.Println("udp Broadcaster started")
 	lookupInfoListeners := make(map[chan QsoInfo]bool)
 	for {
 		select {

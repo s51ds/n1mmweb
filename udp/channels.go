@@ -1,7 +1,5 @@
 package udp
 
-//type QsoInfoChan chan QsoInfo
-
 var (
 	LookupInfoChan     = make(chan QsoInfo)
 	ContactInfoChan    = make(chan QsoInfo)
