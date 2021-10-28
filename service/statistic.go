@@ -15,6 +15,23 @@ func Statistic() {
 		case event := <-listenerChan:
 			{
 				log.Println(event)
+				switch event.Type {
+				case 2:
+					{
+						log.Println(event.ID, "contactInfo")
+					}
+				case 4:
+					{
+						log.Println(event.ID, "contactDelete")
+
+					}
+				case 3:
+					{
+						log.Println(event.ID, "contactReplace")
+
+					}
+
+				}
 			}
 		}
 	}
