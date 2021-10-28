@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/s51ds/n1mmweb/service"
 	"github.com/s51ds/n1mmweb/udp"
+	"github.com/s51ds/n1mmweb/web"
 	"github.com/s51ds/qthdb/db"
 	"os"
 )
@@ -12,6 +13,9 @@ import (
 func main() {
 	myLocator := "JN76TO"
 	udpSocket := "localhost:12060"
+	webSocket := ":8080"
+
+	go web.Start(webSocket)
 
 	fmt.Println("N1MM WEB started")
 	if err := db.Open("db.gob"); err != nil {
