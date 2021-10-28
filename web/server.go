@@ -10,6 +10,7 @@ import (
 
 func Start(addr string) {
 	fmt.Println("Web server started on ", addr)
+	go webSocketWriterService()
 	setupRoutes()
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println(err.Error())
@@ -39,35 +40,39 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err)
+		log.Println("wsEndpoint.Upgrade", err)
 	}
 
-	log.Println("Client Connected")
-	err = ws.WriteMessage(1, []byte("Tukaj se bodo prikazali lokatorji, ko bo čas za to"))
+	log.Println(r.Host, "Client Connected", wsConnNum)
+	if err = ws.WriteMessage(1, []byte("Tukaj se bodo prikazali lokatorji, ko bo čas za to")); err != nil {
+		fmt.Println("wsEndpoint.WriteMessage", err.Error())
+	} else {
 
-	webSocketWriter(ws)
+		wsMap[wsConnNum] = ws
+		wsConnNum++
+	}
+
 }
 
-var LocatorChan = make(chan (string))
+var (
+	wsConnNum   = 1
+	wsMap       = make(map[int]*websocket.Conn)
+	LocatorChan = make(chan string)
+)
 
-func webSocketWriter(conn *websocket.Conn) {
+func webSocketWriterService() {
 	for {
 		select {
 		case locators := <-LocatorChan:
 			{
-				fmt.Println("webSocketWriter", locators)
-				if err := conn.WriteMessage(1, []byte(locators)); err != nil {
-					log.Println(err)
+				for i, ws := range wsMap {
+					if err := ws.WriteMessage(1, []byte(locators)); err != nil {
+						fmt.Println("webSocketWriterService", i, err.Error())
+						delete(wsMap, i)
+					}
 				}
 			}
 		}
-
-		//if err := conn.WriteMessage(1, []byte(time.Now().String())); err != nil {
-		//	log.Println(err)
-		//	return
-		//}
-		//time.Sleep(time.Second)
-
 	}
 }
 

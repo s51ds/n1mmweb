@@ -35,7 +35,7 @@ func Locators(myLocator string) {
 					sb.WriteString("NO LOCATORS IN DB")
 				}
 
-				fmt.Println(sb.String())
+				// fmt.Println(sb.String())
 				web.LocatorChan <- sb.String()
 
 				//				qthdb.api.Locators(myLocator, info.Call)
