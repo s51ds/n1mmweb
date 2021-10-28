@@ -1,10 +1,19 @@
 package udp
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
+
+var (
+	lookupInfoListeners = make(map[chan QsoInfo]bool)
+	contactListeners    = make(map[chan QsoInfo]bool)
+)
 
 func Broadcaster() {
 	fmt.Println("udp Broadcaster started")
-	lookupInfoListeners := make(map[chan QsoInfo]bool)
+	//lookupInfoListeners := make(map[chan QsoInfo]bool)
+	//contactListeners := make(map[chan QsoInfo]bool)
 	for {
 		select {
 		case info := <-LookupInfoChan:
@@ -15,23 +24,40 @@ func Broadcaster() {
 					}
 				}
 			}
-		case info := <-ContactInfoChan:
+		case event := <-ContactInfoChan:
 			{
-				fmt.Println("ContactInfoChan", info.String())
+				log.Println("ContactInfoChan", event.String())
+				broadcastContactEvent(event)
 			}
-		case info := <-ContactReplaceChan:
+		case event := <-ContactReplaceChan:
 			{
-				fmt.Println("ContactReplaceChan", info.String())
+				log.Println("ContactReplaceChan", event.String())
+				broadcastContactEvent(event)
 			}
-		case info := <-ContactDeleteChan:
+		case event := <-ContactDeleteChan:
 			{
-				fmt.Println("ContactDeleteChan", info.String())
+				log.Println("ContactDeleteChan", event.String())
+				broadcastContactEvent(event)
 			}
 		case lookupListener := <-LookupinfoListener:
 			{
 				lookupInfoListeners[lookupListener] = true
-				fmt.Println("LookupinfoListener registered, num of listener:", len(lookupInfoListeners))
+				log.Println("LookupinfoListener registered, num of listener:", len(lookupInfoListeners))
 			}
+		case contactListener := <-ContactListener:
+			{
+				contactListeners[contactListener] = true
+				log.Println("ContactListener registered, num of listeners:", len(contactListeners))
+			}
+		}
+
+	}
+}
+
+func broadcastContactEvent(event QsoInfo) {
+	for k, v := range contactListeners {
+		if v {
+			k <- event
 		}
 	}
 }

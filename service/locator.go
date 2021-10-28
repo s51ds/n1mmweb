@@ -6,13 +6,12 @@ import (
 	"github.com/s51ds/n1mmweb/web"
 	"github.com/s51ds/qthdb/locators"
 	"github.com/s51ds/qthgeo/distance"
+	"log"
 	"strings"
 )
 
-var data string
-
 func Locators(myLocator string) {
-	fmt.Println("Locators service started")
+	log.Println("Locators service started")
 
 	listenerChan := make(chan udp.QsoInfo)
 	udp.LookupinfoListener <- listenerChan
@@ -34,13 +33,8 @@ func Locators(myLocator string) {
 				} else {
 					sb.WriteString("NO LOCATORS IN DB")
 				}
-
-				// fmt.Println(sb.String())
 				web.LocatorChan <- sb.String()
-
-				//				qthdb.api.Locators(myLocator, info.Call)
 			}
 		}
 	}
-
 }

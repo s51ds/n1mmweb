@@ -7,4 +7,5 @@ var (
 	ContactDeleteChan  = make(chan QsoInfo)
 
 	LookupinfoListener = make(chan chan QsoInfo)
+	ContactListener    = make(chan chan QsoInfo)
 )
