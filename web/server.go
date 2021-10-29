@@ -29,6 +29,8 @@ func setupRoutes() {
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/ws", wsEndpoint)
 	http.HandleFunc("/qrb", qrbPage)
+	http.HandleFunc("/dxcc", dxccPage)
+
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +45,14 @@ func qrbPage(w http.ResponseWriter, r *http.Request) {
 	s := statistic.Qrb()
 	if _, err := fmt.Fprintf(w, s); err != nil {
 		log.Println("qrbPage()", err.Error())
+	}
+}
+
+func dxccPage(w http.ResponseWriter, r *http.Request) {
+	log.Println("dxccPage()", r.Host)
+	s := statistic.Dxcc()
+	if _, err := fmt.Fprintf(w, s); err != nil {
+		log.Println("dxccPage()", err.Error())
 	}
 }
 
