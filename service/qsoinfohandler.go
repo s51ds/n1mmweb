@@ -21,29 +21,29 @@ func QsoInfoHandler() {
 					{
 						// new Contact
 						log.Println(event.ID, "contactInfo")
-						qsoLogMu.Lock()
-						qsoLog[event.ID] = event
-						qsoLogMu.Unlock()
-						log.Println("qsoLog", len(qsoLog))
+						QsoLogMux.Lock()
+						QsoLog[event.ID] = event
+						QsoLogMux.Unlock()
+						log.Println("QsoLog", len(QsoLog))
 						saveQsoLog()
 					}
 				case 4:
 					{
 						ID := strings.ReplaceAll(event.ID, "-", "")
 						log.Println(ID, "contactDelete")
-						qsoLogMu.Lock()
-						delete(qsoLog, ID)
-						qsoLogMu.Unlock()
-						log.Println("qsoLog", len(qsoLog))
+						QsoLogMux.Lock()
+						delete(QsoLog, ID)
+						QsoLogMux.Unlock()
+						log.Println("QsoLog", len(QsoLog))
 						saveQsoLog()
 					}
 				case 3:
 					{
 						log.Println(event.ID, "contactReplace")
-						qsoLogMu.Lock()
-						qsoLog[event.ID] = event
-						qsoLogMu.Unlock()
-						log.Println("qsoLog", len(qsoLog))
+						QsoLogMux.Lock()
+						QsoLog[event.ID] = event
+						QsoLogMux.Unlock()
+						log.Println("QsoLog", len(QsoLog))
 						saveQsoLog()
 					}
 				}

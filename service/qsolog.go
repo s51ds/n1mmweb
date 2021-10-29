@@ -15,8 +15,8 @@ func init() {
 
 var (
 	QsoLogFileName = "NOV-2021.log"
-	qsoLog         = make(map[string]udp.QsoInfo)
-	qsoLogMu       sync.RWMutex
+	QsoLog         = make(map[string]udp.QsoInfo)
+	QsoLogMux      sync.RWMutex
 )
 
 func saveQsoLog() {
@@ -26,9 +26,9 @@ func saveQsoLog() {
 	} else {
 		defer logFile.Close()
 		encoder := gob.NewEncoder(logFile)
-		qsoLogMu.RLock()
-		defer qsoLogMu.RUnlock()
-		if err := encoder.Encode(&qsoLog); err != nil {
+		QsoLogMux.RLock()
+		defer QsoLogMux.RUnlock()
+		if err := encoder.Encode(&QsoLog); err != nil {
 			log.Fatalln("saveQsoLog", err.Error())
 		}
 
@@ -43,9 +43,9 @@ func loadQsoLog() {
 	} else {
 		defer logFile.Close()
 		decoder := gob.NewDecoder(logFile)
-		qsoLogMu.Lock()
-		defer qsoLogMu.Unlock()
-		if err := decoder.Decode(&qsoLog); err != nil {
+		QsoLogMux.Lock()
+		defer QsoLogMux.Unlock()
+		if err := decoder.Decode(&QsoLog); err != nil {
 			log.Fatalln("loadQsoLog", err.Error())
 		}
 	}
