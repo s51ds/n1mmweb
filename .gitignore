@@ -14,3 +14,5 @@
 # IntelliJ project files
 .idea
 *.iml
+
+*.log
