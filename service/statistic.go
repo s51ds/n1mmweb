@@ -21,7 +21,9 @@ func Statistic() {
 					{
 						// new Contact
 						log.Println(event.ID, "contactInfo")
+						qsoLogMu.Lock()
 						qsoLog[event.ID] = event
+						qsoLogMu.Unlock()
 						log.Println("qsoLog", len(qsoLog))
 						saveQsoLog()
 					}
@@ -29,14 +31,18 @@ func Statistic() {
 					{
 						ID := strings.ReplaceAll(event.ID, "-", "")
 						log.Println(ID, "contactDelete")
+						qsoLogMu.Lock()
 						delete(qsoLog, ID)
+						qsoLogMu.Unlock()
 						log.Println("qsoLog", len(qsoLog))
 						saveQsoLog()
 					}
 				case 3:
 					{
 						log.Println(event.ID, "contactReplace")
+						qsoLogMu.Lock()
 						qsoLog[event.ID] = event
+						qsoLogMu.Unlock()
 						log.Println("qsoLog", len(qsoLog))
 						saveQsoLog()
 					}
