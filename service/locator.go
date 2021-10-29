@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
+	"github.com/s51ds/n1mmweb/comm"
 	"github.com/s51ds/n1mmweb/udp"
-	"github.com/s51ds/n1mmweb/web"
 	"github.com/s51ds/qthdb/locators"
 	"github.com/s51ds/qthgeo/distance"
 	"log"
@@ -33,7 +33,7 @@ func Locators(myLocator string) {
 				} else {
 					sb.WriteString("NO LOCATORS IN DB")
 				}
-				web.LocatorChan <- sb.String()
+				comm.LocatorChanWebServer <- sb.String()
 			}
 		}
 	}

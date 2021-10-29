@@ -3,6 +3,8 @@ package web
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
+	"github.com/s51ds/n1mmweb/comm"
+	"github.com/s51ds/n1mmweb/statistic"
 	"log"
 	"net/http"
 	"os"
@@ -26,12 +28,21 @@ var upgrader = websocket.Upgrader{
 func setupRoutes() {
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/ws", wsEndpoint)
+	http.HandleFunc("/qrb", qrbPage)
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
 	if _, err := fmt.Fprintf(w, index); err != nil {
-		fmt.Println(err.Error())
+		log.Println("homePage", err.Error())
+	}
+}
+
+func qrbPage(w http.ResponseWriter, r *http.Request) {
+	log.Println("qrbPage()", r.Host)
+	s := statistic.Qrb()
+	if _, err := fmt.Fprintf(w, s); err != nil {
+		log.Println("qrbPage()", err.Error())
 	}
 }
 
@@ -55,15 +66,15 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 var (
-	wsConnNum   = 1
-	wsMap       = make(map[int]*websocket.Conn)
-	LocatorChan = make(chan string)
+	wsConnNum = 1
+	wsMap     = make(map[int]*websocket.Conn)
+	//LocatorChanWebServer = make(chan string)
 )
 
 func webSocketWriterService() {
 	for {
 		select {
-		case locators := <-LocatorChan:
+		case locators := <-comm.LocatorChanWebServer:
 			{
 				for i, ws := range wsMap {
 					if err := ws.WriteMessage(1, []byte(locators)); err != nil {
