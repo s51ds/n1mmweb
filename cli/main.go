@@ -32,7 +32,7 @@ func main() {
 
 	go udp.Broadcaster()
 	go service.Locators(myLocator)
-	go service.Statistic()
+	go service.QsoInfoHandler()
 
 	if err := udp.StartServer(context.Background(), udpSocket); err != nil {
 		log.Println(err.Error())

@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func Statistic() {
-	log.Println("Statistic service started")
+func QsoInfoHandler() {
+	log.Println("QsoInfoHandler service started")
 
 	listenerChan := make(chan udp.QsoInfo)
 	udp.ContactListener <- listenerChan
