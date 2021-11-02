@@ -43,7 +43,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 func qrbPage(w http.ResponseWriter, r *http.Request) {
 	log.Println("qrbPage()", r.Host)
-	s := statistic.Qrb()
+	s := statistic.Qrb("JN76TO")
 	if _, err := fmt.Fprintf(w, s); err != nil {
 		log.Println("qrbPage()", err.Error())
 	}

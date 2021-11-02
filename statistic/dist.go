@@ -10,18 +10,18 @@ import (
 	"strings"
 )
 
-type qsoData struct {
+type qsoDistData struct {
 	dist     int
 	azim     string
 	locator  string
 	callSign string
 }
 
-func (q qsoData) String() string {
+func (q qsoDistData) String() string {
 	return fmt.Sprintf("%4d km %3s° %6s %s", q.dist, q.azim, q.locator, q.callSign)
 }
 
-type byDist []qsoData
+type byDist []qsoDistData
 
 func (b byDist) Len() int {
 	return len(b)
@@ -54,7 +54,7 @@ func Dist() string {
 		if dist, azim, err := distance.Get(myLocator, qso.GridSquare); err != nil {
 			log.Println("Qrb()", err.Error())
 		} else {
-			d := qsoData{
+			d := qsoDistData{
 				dist:     int(dist),
 				azim:     strconv.Itoa(int(azim)),
 				locator:  qso.GridSquare,
