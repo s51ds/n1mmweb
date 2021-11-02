@@ -30,6 +30,7 @@ func setupRoutes() {
 	http.HandleFunc("/ws", wsEndpoint)
 	http.HandleFunc("/qrb", qrbPage)
 	http.HandleFunc("/dxcc", dxccPage)
+	http.HandleFunc("/dist", distPage)
 
 }
 
@@ -53,6 +54,14 @@ func dxccPage(w http.ResponseWriter, r *http.Request) {
 	s := statistic.Dxcc()
 	if _, err := fmt.Fprintf(w, s); err != nil {
 		log.Println("dxccPage()", err.Error())
+	}
+}
+
+func distPage(w http.ResponseWriter, r *http.Request) {
+	log.Println("distPage()", r.Host)
+	s := statistic.Dist()
+	if _, err := fmt.Fprintf(w, s); err != nil {
+		log.Println("distPage()", err.Error())
 	}
 }
 
