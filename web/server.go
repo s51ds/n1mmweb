@@ -43,6 +43,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 func qrbPage(w http.ResponseWriter, r *http.Request) {
 	log.Println("qrbPage()", r.Host)
+	//TODO cli context
 	s := statistic.Qrb("JN76TO")
 	if _, err := fmt.Fprintf(w, s); err != nil {
 		log.Println("qrbPage()", err.Error())
@@ -59,7 +60,8 @@ func dxccPage(w http.ResponseWriter, r *http.Request) {
 
 func distPage(w http.ResponseWriter, r *http.Request) {
 	log.Println("distPage()", r.Host)
-	s := statistic.Dist()
+	//TODO cli context
+	s := statistic.Dist("JN76TO")
 	if _, err := fmt.Fprintf(w, s); err != nil {
 		log.Println("distPage()", err.Error())
 	}

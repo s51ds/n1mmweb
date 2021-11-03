@@ -5,7 +5,6 @@ import (
 	"github.com/s51ds/n1mmweb/service"
 	"github.com/s51ds/qthgeo/distance"
 	"log"
-	"strconv"
 	"strings"
 )
 
@@ -44,13 +43,16 @@ func Qrb(myLocator string) string {
 
 	service.QsoLogMux.RLock()
 	for _, qso := range service.QsoLog {
-		if points, err := strconv.Atoi(qso.Points); err != nil {
-			log.Println("Qrb() dupe check", err)
-		} else {
-			if points == 0 { // dupe
-				continue
-			}
+		if isDupe(qso) {
+			continue
 		}
+		//if points, err := strconv.Atoi(qso.Points); err != nil {
+		//	log.Println("Qrb() dupe check", err)
+		//} else {
+		//	if points == 0 { // dupe
+		//		continue
+		//	}
+		//}
 
 		if dist, _, err := distance.Get(myLocator, qso.GridSquare); err != nil {
 			log.Println("Qrb()", err.Error())

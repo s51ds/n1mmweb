@@ -5,7 +5,6 @@ import (
 	"github.com/s51ds/ctydb/api"
 	"github.com/s51ds/n1mmweb/service"
 	"log"
-	"strconv"
 	"strings"
 )
 
@@ -19,13 +18,16 @@ func Dxcc() string {
 
 	service.QsoLogMux.RLock()
 	for _, qso := range service.QsoLog {
-		if points, err := strconv.Atoi(qso.Points); err != nil {
-			log.Println("Qrb() dupe check", err)
-		} else {
-			if points == 0 { // dupe
-				continue
-			}
-		} // no dupes
+		if isDupe(qso) {
+			continue
+		}
+		//if points, err := strconv.Atoi(qso.Points); err != nil {
+		//	log.Println("Qrb() dupe check", err)
+		//} else {
+		//	if points == 0 { // dupe
+		//		continue
+		//	}
+		//} // no dupes
 
 		if ctyDat, err := api.Get(qso.Call); err != nil {
 			log.Println("Dxcc()", err.Error())
