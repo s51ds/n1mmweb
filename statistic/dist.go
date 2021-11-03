@@ -10,18 +10,18 @@ import (
 	"strings"
 )
 
-type qsoDistData struct {
+type qsoDistItem struct {
 	dist     int
 	azim     string
 	locator  string
 	callSign string
 }
 
-func (q qsoDistData) String() string {
+func (q qsoDistItem) String() string {
 	return fmt.Sprintf("%4d km %3s° %6s %s", q.dist, q.azim, q.locator, q.callSign)
 }
 
-type byDist []qsoDistData
+type byDist []qsoDistItem
 
 func (b byDist) Len() int {
 	return len(b)
@@ -43,18 +43,11 @@ func Dist(myLocator string) string {
 		if isDupe(qso) {
 			continue
 		}
-		//if points, err := strconv.Atoi(qso.Points); err != nil {
-		//	log.Println("Qrb() dupe check", err)
-		//} else {
-		//	if points == 0 { // dupe
-		//		continue
-		//	}
-		//} // no dupes
 
 		if dist, azim, err := distance.Get(myLocator, qso.GridSquare); err != nil {
 			log.Println("Qrb()", err.Error())
 		} else {
-			d := qsoDistData{
+			d := qsoDistItem{
 				dist:     int(dist),
 				azim:     strconv.Itoa(int(azim)),
 				locator:  qso.GridSquare,

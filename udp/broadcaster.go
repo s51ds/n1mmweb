@@ -26,17 +26,17 @@ func Broadcaster() {
 			}
 		case event := <-ContactInfoChan:
 			{
-				log.Println("ContactInfoChan", event.String())
+				//				log.Println("ContactInfoChan", event.String())
 				broadcastContactEvent(event)
 			}
 		case event := <-ContactReplaceChan:
 			{
-				log.Println("ContactReplaceChan", event.String())
+				//				log.Println("ContactReplaceChan", event.String())
 				broadcastContactEvent(event)
 			}
 		case event := <-ContactDeleteChan:
 			{
-				log.Println("ContactDeleteChan", event.String())
+				//				log.Println("ContactDeleteChan", event.String())
 				broadcastContactEvent(event)
 			}
 		case lookupListener := <-LookupinfoListener:

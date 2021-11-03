@@ -46,13 +46,6 @@ func Qrb(myLocator string) string {
 		if isDupe(qso) {
 			continue
 		}
-		//if points, err := strconv.Atoi(qso.Points); err != nil {
-		//	log.Println("Qrb() dupe check", err)
-		//} else {
-		//	if points == 0 { // dupe
-		//		continue
-		//	}
-		//}
 
 		if dist, _, err := distance.Get(myLocator, qso.GridSquare); err != nil {
 			log.Println("Qrb()", err.Error())
